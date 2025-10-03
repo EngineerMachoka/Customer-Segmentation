@@ -8,6 +8,14 @@ Segment customers based on quantity and total spent using K-Means clustering.
 
 
 
+\## 📊 Cluster Visualization
+
+
+
+!\[Customer Segments](data/segmentation\_plot.png)
+
+
+
 \## 🧠 Project Summary
 
 
