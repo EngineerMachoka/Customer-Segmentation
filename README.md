@@ -8,7 +8,11 @@ Segment customers based on quantity and total spent using K-Means clustering.
 
 
 
-\## 📊 Cluster Visualization
+\## 📊 Customer Segmentation Visualization
+
+
+
+Here’s a visual representation of the customer clusters based on `Quantity` and `Total Spent`.
 
 
 
