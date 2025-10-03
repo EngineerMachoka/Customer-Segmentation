@@ -8,15 +8,17 @@ Segment customers based on quantity and total spent using K-Means clustering.
 
 
 
-\## 📊 Customer Segmentation Visualization
+\# Customer-Segmentation
 
 
 
-Here’s a visual representation of the customer clusters based on `Quantity` and `Total Spent`.
+!\[Python](https://img.shields.io/badge/python-3.8%2B-blue)
+
+!\[License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 
 
-!\[Customer Segments](./data/segmentation\_plot.png)
+Segment customers based on quantity and total spent using K-Means clustering.
 
 
 
