@@ -1,23 +1,10 @@
 # Customer-Segmentation
 
-Segment customers based on quantity and total spent using K-Means clustering.
+Segment customers based on quantity and total amount spent using K-Means clustering.
 
 
 
 \# 🧩 Customer Segmentation Using KMeans
-
-
-
-\## 📊 Customer Segmentation Visualization
-
-
-
-Here’s a visual representation of the customer clusters based on `Quantity` and `Total Spent`.
-
-
-
-!\[Customer Segments](./data/segmentation\_plot.png)
-
 
 
 \## 🧠 Project Summary
@@ -46,6 +33,17 @@ Key steps include:
 
 📊 This helps identify customer patterns such as high spenders, bulk buyers, and potential churners — useful for marketing, loyalty programs, or targeting campaigns.
 
+
+
+\## 📊 Customer Segmentation Visualization
+
+
+
+Here’s a visual representation of the customer clusters based on `Quantity` and `Total Spent`.
+
+
+
+!\[Customer Segments](./data/segmentation\_plot.png)
 
 
 ---
