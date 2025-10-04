@@ -43,7 +43,6 @@ Here’s a visual representation of the customer clusters based on `Quantity` an
 
 
 
-!\[Customer Segments](./data/segmentation\_plot.png)
 ![](data/segmentation_plot.png)
 
 
