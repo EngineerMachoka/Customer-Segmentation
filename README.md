@@ -1,7 +1,8 @@
 # Customer-Segmentation
 
 Segment customers based on quantity and total amount spent using K-Means clustering.
-RFM + K-Means, RFM Model Overview
+
+Further analysis on the K-Means with standardization, elbow + silhouette methods for optimal k, is performed
 
 
 
