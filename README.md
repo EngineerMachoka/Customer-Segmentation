@@ -1,6 +1,7 @@
 # Customer-Segmentation
 
 Segment customers based on quantity and total amount spent using K-Means clustering.
+RFM + K-Means, RFM Model Overview
 
 
 
@@ -177,10 +178,15 @@ Grow Segment 2 into higher spenders
 
 # 📂 Files Produced
 File	Description
-data/elbow_plot.png	Shows optimal cluster number
-data/silhouette_plot.png	Validates cluster separation
-data/rfm_segmentation.png	Final customer segments visual
-data/customers_segmented.csv	Full customer segmentation results
+
+\- data/elbow_plot.png	            (Shows optimal cluster number)
+
+\- data/silhouette_plot.png	        (Validates cluster separation)
+
+\- data/rfm_segmentation.png	      (Final customer segments visual)
+
+\- data/customers_segmented.csv	    (Full customer segmentation results)
+
 
 # 🧾 References
 
