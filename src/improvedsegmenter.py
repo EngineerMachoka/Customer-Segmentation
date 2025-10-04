@@ -7,19 +7,22 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 
-# === 📁 Load and Prepare Data ===
+# === Setup and paths ===
 DATA_DIR = 'data'
 FILE_NAME = 'Online Retail.xlsx'
 file_path = os.path.join(DATA_DIR, FILE_NAME)
 
-# Ensure data directory exists
+# Make sure the data directory exists
 os.makedirs(DATA_DIR, exist_ok=True)
 
-# Safety check for file
+# Debug: Print current working directory
+print("Current working directory:", os.getcwd())
+
+# Check if file exists
 if not os.path.exists(file_path):
     raise FileNotFoundError(f"❌ File not found: {file_path}")
 
-# Load and clean data
+# === Load and clean data ===
 data = pd.read_excel(file_path)
 data.drop_duplicates(inplace=True)
 data.dropna(subset=['CustomerID'], inplace=True)
@@ -34,22 +37,18 @@ data = data[data['total_spent'] > 0]
 data['InvoiceDate'] = pd.to_datetime(data['InvoiceDate'])
 reference_date = data['InvoiceDate'].max()
 
-# === 🧮 Build RFM Features ===
+# === Build RFM Features ===
 rfm = data.groupby('CustomerID').agg(
     Recency=('InvoiceDate', lambda x: (reference_date - x.max()).days),
     Frequency=('InvoiceNo', 'nunique'),
     Monetary=('total_spent', 'sum')
 ).reset_index()
 
-# Optional: Log-transform skewed features
-# rfm['Frequency'] = np.log1p(rfm['Frequency'])
-# rfm['Monetary'] = np.log1p(rfm['Monetary'])
-
-# === ⚖️ Standardize Data ===
+# === Standardize Data ===
 scaler = StandardScaler()
 rfm_scaled = scaler.fit_transform(rfm[['Recency', 'Frequency', 'Monetary']])
 
-# === 🔍 Determine Optimal Clusters using Elbow & Silhouette ===
+# === Determine Optimal Clusters using Elbow & Silhouette ===
 inertia = []
 silhouette_scores = []
 K_range = range(2, 11)
@@ -67,8 +66,10 @@ plt.title('Elbow Method For Optimal k')
 plt.xlabel('Number of Clusters')
 plt.ylabel('Inertia')
 plt.tight_layout()
-plt.savefig(os.path.join(DATA_DIR, 'elbow_plot.png'))
-plt.show()
+elbow_path = os.path.join(DATA_DIR, 'elbow_plot.png')
+plt.savefig(elbow_path)
+print(f"Elbow plot saved to {elbow_path}")
+plt.close()
 
 # Plot Silhouette scores
 plt.figure(figsize=(8, 4))
@@ -77,10 +78,12 @@ plt.title('Silhouette Scores For Different k')
 plt.xlabel('Number of Clusters')
 plt.ylabel('Silhouette Score')
 plt.tight_layout()
-plt.savefig(os.path.join(DATA_DIR, 'silhouette_plot.png'))
-plt.show()
+silhouette_path = os.path.join(DATA_DIR, 'silhouette_plot.png')
+plt.savefig(silhouette_path)
+print(f"Silhouette plot saved to {silhouette_path}")
+plt.close()
 
-# === ✅ Apply Final KMeans ===
+# === Apply Final KMeans ===
 optimal_k = 4  # Chosen based on elbow and silhouette
 kmeans = KMeans(n_clusters=optimal_k, n_init=10, random_state=42)
 rfm['Segment'] = kmeans.fit_predict(rfm_scaled)
@@ -89,25 +92,16 @@ rfm['Segment'] = kmeans.fit_predict(rfm_scaled)
 centroids_scaled = kmeans.cluster_centers_
 centroids = scaler.inverse_transform(centroids_scaled)
 
-# Optional: Add business labels for segments
-# segment_map = {
-#     0: 'High Value',
-#     1: 'Churned',
-#     2: 'At Risk',
-#     3: 'New Customers'
-# }
-# rfm['SegmentLabel'] = rfm['Segment'].map(segment_map)
-
-# === 📊 Segment Summary ===
+# === Segment Summary ===
 summary = rfm.groupby('Segment').agg({
     'Recency': 'mean',
     'Frequency': 'mean',
     'Monetary': ['mean', 'count']
 }).round(2)
 
-print("📈 Segment Summary:\n", summary)
+print("Segment Summary:\n", summary)
 
-# === 📈 Visualize Customer Segments ===
+# === Visualize Customer Segments ===
 sns.set(style="whitegrid")
 plt.figure(figsize=(10, 6))
 sns.scatterplot(
@@ -135,10 +129,13 @@ plt.xlabel('Recency (Days Since Last Purchase)')
 plt.ylabel('Monetary (Total Spend)')
 plt.legend()
 plt.tight_layout()
-plt.savefig(os.path.join(DATA_DIR, 'rfm_segmentation.png'))
-plt.show()
 
-# === 💾 Save Output ===
+segment_plot_path = os.path.join(DATA_DIR, 'rfm_segmentation.png')
+plt.savefig(segment_plot_path)
+print(f"Segment plot saved to {segment_plot_path}")
+plt.close()
+
+# === Save Output CSV ===
 output_path = os.path.join(DATA_DIR, 'customers_segmented.csv')
 rfm.to_csv(output_path, index=False)
-print(f"✅ Segmentation complete. Results saved to: {output_path}")
+print(f"Segmentation complete. Results saved to: {output_path}")
